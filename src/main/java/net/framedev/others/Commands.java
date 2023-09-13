@@ -2,6 +2,7 @@ package net.framedev.others;
 
 import net.framedev.Main;
 import net.framedev.events.SetCase;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,14 +16,16 @@ public class Commands implements CommandExecutor {
                 commandSender.sendMessage(S.s(Main.getInstance().getConfig().getString("messages.no-perms")));
                 return true;
             }
-            commandSender.sendMessage(S.s("&7[&6FrameCases&7] &7- Кейсы"));
+            commandSender.sendMessage(S.s("&7[&6FrameCases&7] &7- Кейсы, версия плагина: &6v" + Main.getInstance().getDescription().getVersion()));
             commandSender.sendMessage(S.s("&7Комманды:"));
-            commandSender.sendMessage(S.s("&6/" + s + " setcase &7- Установить позицию для открытия кейсов."));
-            commandSender.sendMessage(S.s("&6/" + s + " givekey [игрок] [кейс] [кол-во] &7- Выдать кейсы игроку"));
-            commandSender.sendMessage(S.s("&6/" + s + " takekey [игрок] [кейс] [кол-во] &7- Забрать кейсы у игрока"));
-            commandSender.sendMessage(S.s("&6/" + s + " setkey [игрок] [кейс] [кол-во] &7- Установить кейсы игроку"));
+            commandSender.sendMessage(S.s(" &6/" + s + " setcase &7- Установить позицию для открытия кейсов."));
+            commandSender.sendMessage(S.s(" &6/" + s + " givekey [игрок] [кейс] [кол-во] &7- Выдать кейсы игроку"));
+            commandSender.sendMessage(S.s(" &6/" + s + " takekey [игрок] [кейс] [кол-во] &7- Забрать кейсы у игрока"));
+            commandSender.sendMessage(S.s(" &6/" + s + " setkey [игрок] [кейс] [кол-во] &7- Установить кейсы игроку"));
             commandSender.sendMessage(S.s("&7"));
-            commandSender.sendMessage(S.s("&7 Группа в вк: &6vk.com/frame_dev"));
+            commandSender.sendMessage(S.s(" &7Плагин поддерживается и обновляется разработчиками §6FrameDev§f, "));
+            commandSender.sendMessage(S.s(" &7если вы заметили недоработку, или есть предложения, то:"));
+            commandSender.sendMessage(S.s(" &7Группа ВК: §6vk.com/frame_dev"));
             commandSender.sendMessage(S.s("&7"));
             return true;
         }
