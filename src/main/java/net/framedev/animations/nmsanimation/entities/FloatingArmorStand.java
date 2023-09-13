@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import net.framedev.Main;
+import net.framedev.others.S;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,14 +38,33 @@ public class FloatingArmorStand {
         Location astLoc = anim.getPlain().transform(center.clone(), offsetX, offsetY);
 
         if (ast == null) {
+
             ast = center.getWorld().spawn(astLoc, ArmorStand.class);
+            ast.setGravity(false);
             ast.setVisible(false);
             ast.getEquipment().setHelmet(new ItemStack(getRandomItem()));
+            for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                try {
+                    String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
+                    Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                    String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
+                    String hdPath = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
+                    String hd = S.s(Main.getInstance().getConfig().getString(hdPath));
+                    byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                    if (ast.getEquipment().getHelmet().getType().equals(material) && ast.getEquipment().getHelmet().getData().getData() == data) {
+                        ast.setCustomName(hd);
+                        ast.setCustomNameVisible(true);
+                    }
+                } catch (NullPointerException | IndexOutOfBoundsException exception) {
+
+                }
+            }
             ast.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
         } else {
             ast.teleport(astLoc);
         }
     }
+
 
     public ArmorStand getArmorStand() {
         return ast;

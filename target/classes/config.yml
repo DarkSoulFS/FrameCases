@@ -22,6 +22,7 @@ messages:
   give-key: "&7[&6FrameDev&7] &7Вы успешно выдали кейс &6%case% &7игроку &6%player% &7в количестве &6x%amount%"
   take-key: "&7[&6FrameDev&7] &7Вы успешно забрали кейс &6%case% &7у игрока &6%player% &7в количестве &6x%amount%"
   set-key: "&7[&6FrameDev&7] &7Вы успешно установили &6%amount% &7кейсов, типа - &6%case%, &7игроку &6%player%"
+animation-gui-time: 10
 gui:
   items:
     DONATE:

@@ -89,7 +89,7 @@ public class CaseGUIAnimation implements Listener {
 
         new BukkitRunnable() {
             int ticks = 0;
-            int maxTicks = 7; // 10 секунд (20 тиков = 1 секунда)
+            int maxTicks = Main.getInstance().getConfig().getInt("animation-gui-time") * 2; // 10 секунд (20 тиков = 1 секунда)
 
             @Override
             public void run() {
@@ -135,7 +135,7 @@ public class CaseGUIAnimation implements Listener {
 
                 ticks++;
             }
-        }.runTaskTimer(Main.getInstance(), 0L, 15L); // Период анимации (в тиках)
+        }.runTaskTimer(Main.getInstance(), 0L, 10L); // Период анимации (в тиках)
         return animationMenu;
     }
 

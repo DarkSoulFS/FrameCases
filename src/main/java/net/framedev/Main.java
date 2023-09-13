@@ -34,10 +34,10 @@ public class Main extends JavaPlugin implements Listener {
 
         try {
             if (Bukkit.getServer().getPluginManager().getPlugin("HolographicDisplays") == null || Bukkit.getServer().getPluginManager().getPlugin("ProtocolLib") == null) {
-                Bukkit.getLogger().warning("Install HolographicDisplays and ProtocolLib plugins.");
+                Bukkit.getLogger().warning("No install HolographicDisplays and ProtocolLib plugins.");
                 Bukkit.getPluginManager().disablePlugin(this);
             }
-        } catch (NullPointerException ignored) {
+        } catch (NullPointerException | NoClassDefFoundError ignored) {
 
         }
         instance = this;
