@@ -47,6 +47,7 @@ gui:
       slot: 21
       amount: 1
       case: donate
+      data: 0
     ITEMS:
       name: "&6&lКейс с предметами"
       material: TRIPWIRE_HOOK
@@ -63,6 +64,7 @@ gui:
       slot: 23
       amount: 1
       case: items
+      data: 0
     ANIMATIONS:
       name: "&6&lВыбор анимации"
       lore:
@@ -73,37 +75,44 @@ gui:
         - ""
       material: COOKIE
       amount: 1
+      data: 0
       slot: 49
     GLASS_1:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
       amount: 1
+      data: 0
       slot: 29
     GLASS_2:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
       amount: 1
+      data: 0
       slot: 30
     GLASS_3:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
       amount: 1
+      data: 0
       slot: 31
     GLASS_4:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
       amount: 1
+      data: 0
       slot: 32
     GLASS_5:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
       amount: 1
+      data: 0
       slot: 33
 cases:
   donate:
     silver:
       name: "&7SILVER"
       material: WHITE_SHULKER_BOX
+      data: 0
       commands:
         - '[COMMAND] lp user %player% parent add silver'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &7SILVER'
@@ -113,18 +122,21 @@ cases:
     vip:
       name: "&b&lVIP"
       material: LIGHT_BLUE_SHULKER_BOX
+      data: 0
       commands:
         - '[COMMAND] lp user %player% parent add vip'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &b&lVIP'
     dark:
       name: "&4&lDARK"
       material: RED_SHULKER_BOX
+      data: 0
       commands:
         - '[COMMAND] lp user %player% parent add dark'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &4&lDARK'
     frame:
       name: "&6&l&nFRAME"
       material: ORANGE_SHULKER_BOX
+      data: 0
       commands:
         - '[COMMAND] lp user %player% parent add frame'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &6&l&nFRAME'
@@ -133,24 +145,28 @@ cases:
     diamond:
       name: "&bх32 алмаза"
       material: DIAMOND
+      data: 0
       commands:
         - '[COMMAND] give %player% diamond 32'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &bалмазы'
     gold_ingot:
       name: "&eх32 золота"
       material: GOLD_INGOT
+      data: 0
       commands:
         - '[COMMAND] give %player% gold_ingot 32'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &eзолото'
     apple:
       name: "&cх16 яблок"
       material: APPLE
+      data: 0
       commands:
         - '[COMMAND] give %player% apple 16'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &cяблоки'
     ender_pearl:
       name: "&5х8 перлов"
       material: ENDER_PEARL
+      data: 0
       commands:
         - '[COMMAND] give %player% ender_pearl 8'
         - '[TITLE] &aКейс открыт!;&fВаш приз: &5эндер-жемгуг'
@@ -160,131 +176,157 @@ animation-gui:
     GLASS_1:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 0
     GLASS_2:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 1
     GLASS_3:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 2
     GLASS_4:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 3
     GLASS_5:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 4
     GLASS_6:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 5
     GLASS_7:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 6
     GLASS_8:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 7
     GLASS_9:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 8
     GLASS_10:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 9
     GLASS_11:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 17
     GLASS_12:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 18
     GLASS_13:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 26
     GLASS_14:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 27
     GLASS_15:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 35
     GLASS_16:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 36
     GLASS_17:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 37
     GLASS_18:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 38
     GLASS_19:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 39
     GLASS_20:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 40
     GLASS_21:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 41
     GLASS_22:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 42
     GLASS_23:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 43
     GLASS_24:
       name: "&7"
       material: ORANGE_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 44
     GLASS_25:
       name: "&7"
       material: BLACK_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 13
     GLASS_26:
       name: "&7"
       material: BLACK_STAINED_GLASS_PANE
+      data: 0
       amount: 1
       slot: 31
 choice:
@@ -301,6 +343,7 @@ choice:
         - ""
       name: "&5&lАнимация #1"
       material: ENDER_PEARL
+      data: 0
       amount: 1
       slot: 11
     ANIMATION_2: # <----
@@ -313,6 +356,7 @@ choice:
         - ""
       name: "&8&lАнимация #2"
       material: GUNPOWDER
+      data: 0
       amount: 1
       slot: 12
     ANIMATION_3: # <----
@@ -325,6 +369,7 @@ choice:
         - ""
       name: "&e&lАнимация #3"
       material: YELLOW_DYE
+      data: 0
       amount: 1
       slot: 13
     ANIMATION_4: # <----
@@ -337,6 +382,7 @@ choice:
         - ""
       name: "&c&lАнимация #4"
       material: RED_DYE
+      data: 0
       amount: 1
       slot: 14
     ANIMATION_5: # <----
@@ -349,11 +395,13 @@ choice:
         - ""
       name: "&9&lАнимация #5"
       material: LAPIS_LAZULI
+      data: 0
       amount: 1
       slot: 15
     BACK: # <----
       name: "&4&lНазад"
       material: BARRIER
+      data: 0
       amount: 1
       slot: 31
 players:
