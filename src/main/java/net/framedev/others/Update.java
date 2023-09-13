@@ -40,15 +40,31 @@ public class Update {
                     latestVersion = latestVersion.substring(0, latestVersion.indexOf("\""));
 
                     if (!currentVersion.equals(latestVersion)) {
-                        Main.getInstance().getLogger().warning("Доступно обновление для вашего плагина! Новая версия: " + latestVersion);
+                        if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                            Main.getInstance().getLogger().warning("Доступно обновление для вашего плагина! Новая версия: " + latestVersion);
+                        } else {
+                            Main.getInstance().getLogger().warning("Available update for your plugin! A new version:" + latestVersion);
+                        }
                     } else {
-                        Main.getInstance().getLogger().info("У вас установлена последняя версия плагина.");
+                        if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                            Main.getInstance().getLogger().info("У вас установлена последняя версия плагина.");
+                        } else {
+                            Main.getInstance().getLogger().info("You have the latest version of the plugin installed.");
+                        }
                     }
                 } else {
-                    Main.getInstance().getLogger().warning("Не удалось проверить обновления. Ответ сервера: " + responseCode);
+                    if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                        Main.getInstance().getLogger().warning("Не удалось проверить обновления. Ответ сервера: " + responseCode);
+                    } else {
+                        Main.getInstance().getLogger().warning("Failed to check for updates. Server response: " + responseCode);
+                    }
                 }
             } catch (IOException e) {
-                Main.getInstance().getLogger().warning("Ошибка при проверке обновлений: " + e.getMessage());
+                if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                    Main.getInstance().getLogger().warning("Ошибка при проверке обновлений: " + e.getMessage());
+                } else {
+                    Main.getInstance().getLogger().warning("Error checking for updates: " + e.getMessage());
+                }
             }
     }
 }

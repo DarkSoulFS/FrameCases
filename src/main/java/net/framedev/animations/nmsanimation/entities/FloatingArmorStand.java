@@ -1,12 +1,21 @@
 package net.framedev.animations.nmsanimation.entities;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.PacketContainer;
 import net.framedev.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class FloatingArmorStand {
@@ -29,7 +38,7 @@ public class FloatingArmorStand {
 
         if (ast == null) {
             ast = center.getWorld().spawn(astLoc, ArmorStand.class);
-            ast.setInvisible(true);
+            ast.setVisible(false);
             ast.getEquipment().setHelmet(new ItemStack(getRandomItem()));
             ast.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
         } else {
@@ -50,7 +59,7 @@ public class FloatingArmorStand {
     }
 
 
-    private Material getRandomItem() {
+    private ItemStack getRandomItem() {
         Random random = new Random();
         return Main.items.get(random.nextInt(Main.items.size()));
     }

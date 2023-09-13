@@ -4,6 +4,7 @@ import net.framedev.Main;
 import net.framedev.others.S;
 import net.framedev.api.Actions;
 import org.bukkit.*;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,9 +46,10 @@ public class CaseGUIAnimation implements Listener {
                 String material = ((Main) Main.getPlugin(Main.class)).getConfig().getString("animation-gui.items." + items + ".material");
                 int amount = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("animation-gui.items." + items + ".amount");
                 int slot = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("animation-gui.items." + items + ".slot");
+                byte data = (byte) ((Main) Main.getPlugin(Main.class)).getConfig().getInt("animation-gui.items." + items + ".data");
 
                 List<String> lore = new ArrayList<>();
-                ItemStack itemStack = new ItemStack(Material.matchMaterial(material), amount);
+                ItemStack itemStack = new ItemStack(Material.matchMaterial(material), amount, data);
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 for (String s : lores)
                     lore.add(S.s(s));
@@ -65,13 +67,15 @@ public class CaseGUIAnimation implements Listener {
 
         // Заполняем animatedItems рандомными предметами (5 штук)
         for (int i = 0; i < 5; i++) {
-            ItemStack item = new ItemStack(getRandomItem());
+            ItemStack item = getRandomItem();
             ItemMeta meta = item.getItemMeta();
             for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                 try {
                     String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
                     Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
-                    if (item.getType().equals(material)) {
+                    String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
+                    byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                    if (item.getType().equals(material) && item.getData().getData() == data) {
                         String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
                         meta.setDisplayName(S.s(Main.getInstance().getConfig().getString(path_)));
                         item.setItemMeta(meta);
@@ -98,7 +102,9 @@ public class CaseGUIAnimation implements Listener {
                         try {
                             String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
                             Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
-                            if (itemToGive.getType().equals(material)) {
+                            String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
+                            byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                            if (itemToGive.getType().equals(material) && itemToGive.getData().getData() == data) {
                                 String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
                                 List<String> commands = Main.getInstance().getConfig().getStringList(path_);
                                 Actions.use(commands, player);
@@ -133,7 +139,7 @@ public class CaseGUIAnimation implements Listener {
         return animationMenu;
     }
 
-    private Material getRandomItem() {
+    private ItemStack getRandomItem() {
         Random random = new Random();
         return Main.items.get(random.nextInt(Main.items.size()));
     }
@@ -141,7 +147,6 @@ public class CaseGUIAnimation implements Listener {
     @EventHandler
     public void guiClick(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
-            Player player = (Player) event.getWhoClicked();
             if (event.getView().getTitle().equals(title)) {
                 event.setCancelled(true);
             }

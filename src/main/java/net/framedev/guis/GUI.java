@@ -37,9 +37,10 @@ public class GUI implements Listener {
                 String material = ((Main) Main.getPlugin(Main.class)).getConfig().getString("gui.items." + items + ".material");
                 int amount = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("gui.items." + items + ".amount");
                 int slot = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("gui.items." + items + ".slot");
+                byte data = (byte) ((Main) Main.getPlugin(Main.class)).getConfig().getInt("gui.items." + items + ".data");
 
                 List<String> lore = new ArrayList<>();
-                ItemStack itemStack = new ItemStack(Material.matchMaterial(material), amount);
+                ItemStack itemStack = new ItemStack(Material.matchMaterial(material), amount, data);
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 String case_ = ((Main) Main.getPlugin(Main.class)).getConfig().getString("gui.items." + items + ".case");
                 for (String s : lores)

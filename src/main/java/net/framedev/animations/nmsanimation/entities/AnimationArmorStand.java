@@ -47,52 +47,100 @@ public class AnimationArmorStand {
         double arrowBottomY = blockCenter.getY() + distance + 0.5;
         double arrowBottomZ = blockCenter.getZ();
 
-        DustOptions dustOptions = new Particle.DustOptions(Color.fromBGR(0, 0, 255), 1);
+        if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+            DustOptions dustOptions = new Particle.DustOptions(Color.fromBGR(0, 0, 255), 1);
+            BukkitTask timer = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                astColl.forEach(ast -> ast.rotate(blockCenter, distance, stepRad, counterClockwise));
 
-        BukkitTask timer = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            astColl.forEach(ast -> ast.rotate(blockCenter, distance, stepRad, counterClockwise));
-
-            if (!plain.equals(RotationPlain.Y)) {
-                for (double d = 0; d < 1; d += 0.2) {
-                    at.getWorld().spawnParticle(Particle.REDSTONE, arrowBottomX, arrowBottomY + d, arrowBottomZ, 1, dustOptions);
-                }
-            } else {
-                for (double d = 0; d < 1.6; d += 0.2) {
-                    at.getWorld().spawnParticle(Particle.REDSTONE, arrowBottomX, arrowBottomY - (d), arrowBottomZ - (d), 1, dustOptions);
-                }
-            }
-        }, 0L, period);
-
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            Material material = getHighestArmorStand().getArmorStand().getHelmet().getType();
-            for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
-                try {
-                    String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                    Material check = Material.valueOf(Main.getInstance().getConfig().getString(path));
-                    if (material.equals(check)) {
-                        String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
-                        List<String> commands = Main.getInstance().getConfig().getStringList(path_);
-                        Actions.use(commands, player);
+                if (!plain.equals(RotationPlain.Y)) {
+                    for (double d = 0; d < 1; d += 0.2) {
+                        at.getWorld().spawnParticle(Particle.REDSTONE, arrowBottomX, arrowBottomY + d, arrowBottomZ, 1, dustOptions);
                     }
-                    // }
-                } catch (NullPointerException exception) {
-
+                } else {
+                    for (double d = 0; d < 1.6; d += 0.2) {
+                        at.getWorld().spawnParticle(Particle.REDSTONE, arrowBottomX, arrowBottomY - (d), arrowBottomZ - (d), 1, dustOptions);
+                    }
                 }
-            }
+            }, 0L, period);
 
-            timer.cancel();
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                Material material = getHighestArmorStand().getArmorStand().getHelmet().getType();
+                for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                    try {
+                        String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
+                        Material check = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                        if (material.equals(check)) {
+                            String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
+                            List<String> commands = Main.getInstance().getConfig().getStringList(path_);
+                            Actions.use(commands, player);
+                        }
+                        // }
+                    } catch (NullPointerException exception) {
 
-            CaseAnimationEndEvent endEvent = new CaseAnimationEndEvent(this);
-            Bukkit.getPluginManager().callEvent(endEvent);
+                    }
+                }
+
+                timer.cancel();
+
+                CaseAnimationEndEvent endEvent = new CaseAnimationEndEvent(this);
+                Bukkit.getPluginManager().callEvent(endEvent);
 
 
+                if (endEvent.isRemovingArmorStands()) {
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        removeArmorStands();
+                    }, endEvent.getRemoveArmorStandsDelay());
+                }
+            }, duration);
+        } else {
+            Particle dustOptions = Particle.REDSTONE;
+            BukkitTask timer = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                astColl.forEach(ast -> ast.rotate(blockCenter, distance, stepRad, counterClockwise));
 
-            if (endEvent.isRemovingArmorStands()) {
-                Bukkit.getScheduler().runTaskLater(plugin, () -> {
-                    removeArmorStands();
-                }, endEvent.getRemoveArmorStandsDelay());
-            }
-        }, duration);
+                if (!plain.equals(RotationPlain.Y)) {
+                    for (double d = 0; d < 1; d += 0.2) {
+                        at.getWorld().spawnParticle(Particle.REDSTONE, arrowBottomX, arrowBottomY + d, arrowBottomZ, 1);
+                    }
+                } else {
+                    for (double d = 0; d < 1.6; d += 0.2) {
+                        at.getWorld().spawnParticle(Particle.REDSTONE, arrowBottomX, arrowBottomY - (d), arrowBottomZ - (d), 1);
+                    }
+                }
+            }, 0L, period);
+
+            Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                Material material = getHighestArmorStand().getArmorStand().getHelmet().getType();
+                byte data = Objects.requireNonNull(getHighestArmorStand().getArmorStand().getHelmet().getData()).getData();
+                for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                    try {
+                        String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
+                        Material check = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                        String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
+                        byte checkData = (byte) Main.getInstance().getConfig().getInt(pathData);
+                        if (material.equals(check) && data == checkData) {
+                            String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
+                            List<String> commands = Main.getInstance().getConfig().getStringList(path_);
+                            Actions.use(commands, player);
+                        }
+                        // }
+                    } catch (NullPointerException exception) {
+
+                    }
+                }
+
+                timer.cancel();
+
+                CaseAnimationEndEvent endEvent = new CaseAnimationEndEvent(this);
+                Bukkit.getPluginManager().callEvent(endEvent);
+
+
+                if (endEvent.isRemovingArmorStands()) {
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        removeArmorStands();
+                    }, endEvent.getRemoveArmorStandsDelay());
+                }
+            }, duration);
+        }
     }
 
     public Random getRandom() {

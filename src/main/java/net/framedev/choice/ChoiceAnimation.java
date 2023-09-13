@@ -31,9 +31,10 @@ public class ChoiceAnimation {
                 String material = ((Main) Main.getPlugin(Main.class)).getConfig().getString("choice.items." + items + ".material");
                 int amount = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("choice.items." + items + ".amount");
                 int slot = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("choice.items." + items + ".slot");
+                byte data = (byte) ((Main) Main.getPlugin(Main.class)).getConfig().getInt("choice.items." + items + ".data");
 
                 List<String> lore = new ArrayList<>();
-                ItemStack itemStack = new ItemStack(Material.matchMaterial(material), amount);
+                ItemStack itemStack = new ItemStack(Material.matchMaterial(material), amount, data);
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 for (String s : lores)
                     lore.add(S.s(s));

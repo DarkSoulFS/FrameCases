@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class ClickGUI implements Listener {
     CaseAnimation animation = new CaseAnimation();
@@ -45,7 +46,10 @@ public class ClickGUI implements Listener {
                             try {
                                 String path = String.join(".", "cases." + s + "." + st + ".material");
                                 Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
-                                Main.items.add(material);
+                                String pathData = String.join(".", "cases." + s + "." + st + ".data");
+                                byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                                ItemStack item = new ItemStack(material, 1, data);
+                                Main.items.add(item);
                             } catch (NullPointerException ex) {
 
                             }

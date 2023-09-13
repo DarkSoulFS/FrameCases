@@ -24,7 +24,7 @@ public class BlockParticles {
                             double offsetY = Math.random() * 4.0D - 2.0D;
                             double offsetZ = Math.random() * 4.0D - 2.0D;
                             Location particleLocation = centerLocation.clone().add(offsetX, offsetY, offsetZ);
-                            centerLocation.getWorld().spawnParticle(Particle.valueOf(Main.getInstance().getConfig().getString("block-particles.particle")), centerLocation, 1, 0.0D, 0.0D, 0.0D, 0.1D);
+                            centerLocation.getWorld().spawnParticle(Particle.valueOf(Main.getInstance().getConfig().getString("block-particles.particle")), particleLocation, 1, 0.0D, 0.0D, 0.0D, 0.1D);
                         }
                     } catch (NullPointerException exception) {
 
