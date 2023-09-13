@@ -43,7 +43,7 @@ public class Update {
                         if (Main.getInstance().getServer().getVersion().contains("1.16")) {
                             Main.getInstance().getLogger().warning("Доступно обновление для вашего плагина! Новая версия: " + latestVersion);
                         } else {
-                            Main.getInstance().getLogger().warning("Available update for your plugin! A new version:" + latestVersion);
+                            Main.getInstance().getLogger().warning("Available update for your plugin! A new version: " + latestVersion);
                         }
                     } else {
                         if (Main.getInstance().getServer().getVersion().contains("1.16")) {
