@@ -26,7 +26,9 @@ public class CaseAnimation implements Listener {
     Hologram hologram;
 
     public boolean isShulkerBox(Material material) {
-        if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+        if (Main.getInstance().getServer().getVersion().contains("1.16") ||
+                Main.getInstance().getServer().getVersion().contains("1.17") ||
+                Main.getInstance().getServer().getVersion().contains("1.18")) {
             return material == Material.SHULKER_BOX || material == Material.BLACK_SHULKER_BOX ||
                     material == Material.BLUE_SHULKER_BOX || material == Material.BROWN_SHULKER_BOX ||
                     material == Material.CYAN_SHULKER_BOX || material == Material.GRAY_SHULKER_BOX ||

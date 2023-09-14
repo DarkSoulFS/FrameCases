@@ -47,7 +47,9 @@ public class AnimationArmorStand {
         double arrowBottomY = blockCenter.getY() + distance + 0.5;
         double arrowBottomZ = blockCenter.getZ();
 
-        if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+        if (Main.getInstance().getServer().getVersion().contains("1.16") ||
+                Main.getInstance().getServer().getVersion().contains("1.17") ||
+                Main.getInstance().getServer().getVersion().contains("1.18")) {
             DustOptions dustOptions = new Particle.DustOptions(Color.fromBGR(0, 0, 255), 1);
             BukkitTask timer = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                 astColl.forEach(ast -> ast.rotate(blockCenter, distance, stepRad, counterClockwise));

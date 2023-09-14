@@ -25,6 +25,7 @@ messages:
 animation-gui-time: 10
 gui:
   items:
+    ;
     DONATE:
       name: "&6&lКейс с донатом"
       material: TRIPWIRE_HOOK

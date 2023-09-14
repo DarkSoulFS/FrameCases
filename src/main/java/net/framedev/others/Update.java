@@ -40,27 +40,35 @@ public class Update {
                     latestVersion = latestVersion.substring(0, latestVersion.indexOf("\""));
 
                     if (!currentVersion.equals(latestVersion)) {
-                        if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                        if (Main.getInstance().getServer().getVersion().contains("1.16") ||
+                                Main.getInstance().getServer().getVersion().contains("1.17") ||
+                                Main.getInstance().getServer().getVersion().contains("1.18")) {
                             Main.getInstance().getLogger().warning("Доступно обновление для вашего плагина! Новая версия: " + latestVersion);
                         } else {
                             Main.getInstance().getLogger().warning("Available update for your plugin! A new version: " + latestVersion);
                         }
                     } else {
-                        if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                        if (Main.getInstance().getServer().getVersion().contains("1.16") ||
+                                Main.getInstance().getServer().getVersion().contains("1.17") ||
+                                Main.getInstance().getServer().getVersion().contains("1.18")) {
                             Main.getInstance().getLogger().info("У вас установлена последняя версия плагина.");
                         } else {
                             Main.getInstance().getLogger().info("You have the latest version of the plugin installed.");
                         }
                     }
                 } else {
-                    if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                    if (Main.getInstance().getServer().getVersion().contains("1.16") ||
+                            Main.getInstance().getServer().getVersion().contains("1.17") ||
+                            Main.getInstance().getServer().getVersion().contains("1.18")) {
                         Main.getInstance().getLogger().warning("Не удалось проверить обновления. Ответ сервера: " + responseCode);
                     } else {
                         Main.getInstance().getLogger().warning("Failed to check for updates. Server response: " + responseCode);
                     }
                 }
             } catch (IOException e) {
-                if (Main.getInstance().getServer().getVersion().contains("1.16")) {
+                if (Main.getInstance().getServer().getVersion().contains("1.16") ||
+                        Main.getInstance().getServer().getVersion().contains("1.17") ||
+                        Main.getInstance().getServer().getVersion().contains("1.18")) {
                     Main.getInstance().getLogger().warning("Ошибка при проверке обновлений: " + e.getMessage());
                 } else {
                     Main.getInstance().getLogger().warning("Error checking for updates: " + e.getMessage());

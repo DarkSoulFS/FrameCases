@@ -61,7 +61,11 @@ public class FloatingArmorStand {
             }
             ast.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
         } else {
-            ast.teleport(astLoc);
+            if (ast.getEquipment().getHelmet().getType().isBlock()) {
+                ast.teleport(astLoc);
+            } else {
+                ast.teleport(astLoc.add(0, -0.5, 0));
+            }
         }
     }
 

@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class SetCase implements Listener {
