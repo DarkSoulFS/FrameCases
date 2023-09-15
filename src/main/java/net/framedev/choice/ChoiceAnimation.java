@@ -1,9 +1,10 @@
 package net.framedev.choice;
 
 import net.framedev.Main;
-import net.framedev.others.S;
+import net.framedev.others.Coloriser;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -13,33 +14,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChoiceAnimation {
-
-    public static String title = S.s("&7Кейсы > Выбор анимации");
-
-    Main plugin;
-
-    public ChoiceAnimation(Main plugin) {
-        this.plugin = plugin;
-    }
+	
+	private static final Main instance = Main.getInstance();
+    public static String title = Coloriser.colorify("&7Кейсы > Выбор анимации");
 
     public static Inventory choice(Player player) {
         Inventory inventory = Bukkit.createInventory(null, 36, title);
-        for (String items : Main.getInstance().getConfig().getConfigurationSection("choice.items").getKeys(false)) {
+        for (String items : instance.getConfig().getConfigurationSection("choice.items").getKeys(false)) {
             try {
-                List<String> lores = ((Main) Main.getPlugin(Main.class)).getConfig().getStringList("choice.items." + items + ".lore");
-                String name = ((Main) Main.getPlugin(Main.class)).getConfig().getString("choice.items." + items + ".name");
-                String material = ((Main) Main.getPlugin(Main.class)).getConfig().getString("choice.items." + items + ".material");
-                int amount = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("choice.items." + items + ".amount");
-                int slot = ((Main) Main.getPlugin(Main.class)).getConfig().getInt("choice.items." + items + ".slot");
-                byte data = (byte) ((Main) Main.getPlugin(Main.class)).getConfig().getInt("choice.items." + items + ".data");
+            	ConfigurationSection item = instance.getConfig().getConfigurationSection("choice.items." + items);
+                List<String> lores = item.getStringList(".lore");
+                String name = item.getString(".name");
+                String material = item.getString(".material");
+                int amount = item.getInt(".amount");
+                int slot = item.getInt(".slot");
+                byte data = (byte) item.getInt(".data");
 
                 List<String> lore = new ArrayList<>();
                 ItemStack itemStack = new ItemStack(Material.matchMaterial(material), amount, data);
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 for (String s : lores)
-                    lore.add(S.s(s));
+                    lore.add(Coloriser.colorify(s));
                 itemMeta.setLore(lore);
-                itemMeta.setDisplayName(S.s(name));
+                itemMeta.setDisplayName(Coloriser.colorify(name));
                 itemStack.setItemMeta(itemMeta);
                 inventory.setItem(slot, itemStack);
             } catch (NullPointerException ignored) {

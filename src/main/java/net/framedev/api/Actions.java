@@ -1,6 +1,6 @@
 package net.framedev.api;
 
-import net.framedev.others.S;
+import net.framedev.others.Coloriser;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class Actions {
+	
     public static void use(List<String> list, Player player) {
         if (list.isEmpty()) {
             return;
@@ -23,24 +24,23 @@ public class Actions {
 
             switch (action.toUpperCase()) {
 
-                case "[MESSAGE]" -> player.sendMessage(S.s(command));
+                case "[MESSAGE]": player.sendMessage(Coloriser.colorify(command));
 
-                case "[SOUND]" -> player.playSound(player.getLocation(), Sound.valueOf(command), 500.0f, 1.0f);
+                case "[SOUND]": player.playSound(player.getLocation(), Sound.valueOf(command), 500.0f, 1.0f);
 
-
-                case "[TITLE]" -> {
+                case "[TITLE]": {
                     if (command.contains(";")) {
                         String[] title = command.split(";");
-                        player.sendTitle(S.s(title[0]), S.s(title[1]));
+                        player.sendTitle(Coloriser.colorify(title[0]), Coloriser.colorify(title[1]));
                         break;
                     }
-                    player.sendTitle(S.s(command), "");}
+                    player.sendTitle(Coloriser.colorify(command), "");}
 
-                case "[ACTIONBAR]" -> player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(S.s(command)));
+                case "[ACTIONBAR]": player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(Coloriser.colorify(command)));
 
-                case "[COMMAND]" -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
+                case "[COMMAND]": Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
 
-                case "[BROADCAST]" -> Bukkit.broadcastMessage(S.s(command.replace("%player%", player.getName())));
+                case "[BROADCAST]": Bukkit.broadcastMessage(Coloriser.colorify(command.replace("%player%", player.getName())));
             }
         }
     }

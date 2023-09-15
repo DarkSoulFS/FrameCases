@@ -2,14 +2,16 @@ package net.framedev.animations;
 
 import net.framedev.events.ClickBlock;
 import net.framedev.Main;
-import net.framedev.others.S;
+import net.framedev.others.Coloriser;
 import net.framedev.api.Actions;
 import net.framedev.api.Holograms;
 import me.filoghost.holographicdisplays.api.HolographicDisplaysAPI;
 import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.*;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -20,36 +22,19 @@ import java.util.List;
 import java.util.Random;
 
 public class CaseAnimation implements Listener {
-
+	
+	private final Main instance = Main.getInstance();
+    private HolographicDisplaysAPI api = HolographicDisplaysAPI.get(instance);
     private ItemStack lastItem;
-    private static HolographicDisplaysAPI api = HolographicDisplaysAPI.get(Main.getInstance());
     Hologram hologram;
 
     public boolean isShulkerBox(Material material) {
-        if (Main.getInstance().getServer().getVersion().contains("1.16") ||
-                Main.getInstance().getServer().getVersion().contains("1.17") ||
-                Main.getInstance().getServer().getVersion().contains("1.18")) {
-            return material == Material.SHULKER_BOX || material == Material.BLACK_SHULKER_BOX ||
-                    material == Material.BLUE_SHULKER_BOX || material == Material.BROWN_SHULKER_BOX ||
-                    material == Material.CYAN_SHULKER_BOX || material == Material.GRAY_SHULKER_BOX ||
-                    material == Material.GREEN_SHULKER_BOX || material == Material.LIGHT_BLUE_SHULKER_BOX ||
-                    material == Material.LIGHT_GRAY_SHULKER_BOX || material == Material.LIME_SHULKER_BOX ||
-                    material == Material.MAGENTA_SHULKER_BOX || material == Material.ORANGE_SHULKER_BOX ||
-                    material == Material.PINK_SHULKER_BOX || material == Material.PURPLE_SHULKER_BOX ||
-                    material == Material.RED_SHULKER_BOX || material == Material.WHITE_SHULKER_BOX ||
-                    material == Material.YELLOW_SHULKER_BOX;
-        } else {
-            return  material == Material.BLACK_SHULKER_BOX ||
-                    material == Material.BLUE_SHULKER_BOX || material == Material.BROWN_SHULKER_BOX ||
-                    material == Material.CYAN_SHULKER_BOX || material == Material.GRAY_SHULKER_BOX ||
-                    material == Material.GREEN_SHULKER_BOX || material == Material.LIGHT_BLUE_SHULKER_BOX
-                    || material == Material.LIME_SHULKER_BOX ||
-                    material == Material.MAGENTA_SHULKER_BOX || material == Material.ORANGE_SHULKER_BOX ||
-                    material == Material.PINK_SHULKER_BOX || material == Material.PURPLE_SHULKER_BOX ||
-                    material == Material.RED_SHULKER_BOX || material == Material.WHITE_SHULKER_BOX ||
-                    material == Material.YELLOW_SHULKER_BOX;
-        }
+    	if (material.toString().contains("SHULKER_BOX")) {
+    		return true;
+    	}
+    	return false;
     }
+    
     public void startCaseAnimation(Location location, Player player) {
         Main.isOpen = true;
         Block block = Holograms.locationCase().getBlock();
@@ -59,13 +44,12 @@ public class CaseAnimation implements Listener {
         Holograms.removeHD();
 
         hologram = api.createHologram(Holograms.locationCase().add(0.5, 2, 0.5));
-        hologram.getLines().appendText(S.s("&7Открытие.."));
+        hologram.getLines().appendText(Coloriser.colorify("&7Открытие.."));
         // Запуск анимации
         new BukkitRunnable() {
             double angle = 1;
             double radius = 1.0;
             int timer = 0;
-
 
             @Override
             public void run() {
@@ -89,7 +73,7 @@ public class CaseAnimation implements Listener {
                                 .stream()
                                 .filter(entity -> entity instanceof ArmorStand)
                                 .map(entity -> (ArmorStand) entity)
-                                .filter(armorStand -> armorStand.getHelmet() != null && armorStand.getHelmet().getType() == lastItem.getType())
+                                .filter(armorStand -> armorStand.getEquipment().getHelmet() != null && armorStand.getEquipment().getHelmet().getType() == lastItem.getType())
                                 .forEach(ArmorStand::remove);
                     }
 
@@ -100,8 +84,8 @@ public class CaseAnimation implements Listener {
                             armorStand.setVisible(false);
                             armorStand.setGravity(false);
                             armorStand.setArms(true);
-                            armorStand.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
-                            armorStand.setHelmet(randomItem);
+                            armorStand.setMetadata("case_", new FixedMetadataValue(instance, true));
+                            armorStand.getEquipment().setHelmet(randomItem);
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         } else {
@@ -109,35 +93,35 @@ public class CaseAnimation implements Listener {
                             armorStand.setVisible(false);
                             armorStand.setGravity(false);
                             armorStand.setArms(true);
-                            armorStand.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
-                            armorStand.setHelmet(randomItem);
+                            armorStand.setMetadata("case_", new FixedMetadataValue(instance, true));
+                            armorStand.getEquipment().setHelmet(randomItem);
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         }
-                        for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                        for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                             try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                                Material material = Material.valueOf(instance.getConfig().getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                                byte data = (byte) instance.getConfig().getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     hologram.getLines().remove(0);
                                     String path_name = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                                    hologram.getLines().appendText(S.s(Main.getInstance().getConfig().getString(path_name)));
+                                    hologram.getLines().appendText(Coloriser.colorify(instance.getConfig().getString(path_name)));
                                 }
                             } catch (NullPointerException | IndexOutOfBoundsException exception) {
 
                             }
                         }
-                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(Main.getInstance().getConfig().getString("settings.animation-sound")), 1f, 1f);
+                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(instance.getConfig().getString("settings.animation-sound")), 1f, 1f);
                     } else if (isShulkerBox(block.getType())) {
                         if (randomItem.getType().isBlock()) {
                             ArmorStand armorStand = location.getWorld().spawn(location.clone().add(0.5, -0.9, 0.5), ArmorStand.class);
                             armorStand.setVisible(false);
                             armorStand.setGravity(false);
                             armorStand.setArms(true);
-                            armorStand.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
-                            armorStand.setHelmet(randomItem);
+                            armorStand.setMetadata("case_", new FixedMetadataValue(instance, true));
+                            armorStand.getEquipment().setHelmet(randomItem);
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         } else {
@@ -145,28 +129,28 @@ public class CaseAnimation implements Listener {
                             armorStand.setVisible(false);
                             armorStand.setGravity(false);
                             armorStand.setArms(true);
-                            armorStand.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
-                            armorStand.setHelmet(randomItem);
+                            armorStand.setMetadata("case_", new FixedMetadataValue(instance, true));
+                            armorStand.getEquipment().setHelmet(randomItem);
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         }
-                        for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                        for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                             try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                                Material material = Material.valueOf(instance.getConfig().getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                                byte data = (byte) instance.getConfig().getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     hologram.setPosition(Holograms.locationCase().add(1.6, 1, 0.5));
                                     hologram.getLines().remove(0);
                                     String path_name = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                                    hologram.getLines().appendText(S.s(Main.getInstance().getConfig().getString(path_name)));
+                                    hologram.getLines().appendText(Coloriser.colorify(instance.getConfig().getString(path_name)));
                                 }
                             } catch (NullPointerException | IndexOutOfBoundsException exception) {
 
                             }
                         }
-                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(Main.getInstance().getConfig().getString("settings.animation-sound")), 1f, 1f);
+                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(instance.getConfig().getString("settings.animation-sound")), 1f, 1f);
                     } else if (!(block.getType().equals(Material.CHEST)) && !(block.getType().equals(Material.ENDER_CHEST)) && !(isShulkerBox(block.getType())) &&
                             !(block.getType().equals(Material.TRAPPED_CHEST))) {
                         if (randomItem.getType().isBlock()) {
@@ -174,8 +158,8 @@ public class CaseAnimation implements Listener {
                             armorStand.setVisible(false);
                             armorStand.setGravity(false);
                             armorStand.setArms(true);
-                            armorStand.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
-                            armorStand.setHelmet(randomItem);
+                            armorStand.setMetadata("case_", new FixedMetadataValue(instance, true));
+                            armorStand.getEquipment().setHelmet(randomItem);
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         } else {
@@ -183,28 +167,28 @@ public class CaseAnimation implements Listener {
                             armorStand.setVisible(false);
                             armorStand.setGravity(false);
                             armorStand.setArms(true);
-                            armorStand.setMetadata("case_", new FixedMetadataValue(Main.getInstance(), true));
-                            armorStand.setHelmet(randomItem);
+                            armorStand.setMetadata("case_", new FixedMetadataValue(instance, true));
+                            armorStand.getEquipment().setHelmet(randomItem);
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         }
-                        for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                        for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                             try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                                Material material = Material.valueOf(instance.getConfig().getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                                byte data = (byte) instance.getConfig().getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     hologram.setPosition(Holograms.locationCase().add(1.55, 1.8, 0.5));
                                     hologram.getLines().remove(0);
                                     String path_name = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                                    hologram.getLines().appendText(S.s(Main.getInstance().getConfig().getString(path_name)));
+                                    hologram.getLines().appendText(Coloriser.colorify(instance.getConfig().getString(path_name)));
                                 }
                             } catch (NullPointerException | IndexOutOfBoundsException exception) {
 
                             }
                         }
-                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(Main.getInstance().getConfig().getString("settings.animation-sound")), 1f, 1f);
+                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(instance.getConfig().getString("settings.animation-sound")), 1f, 1f);
                     }
                 }
 
@@ -215,15 +199,15 @@ public class CaseAnimation implements Listener {
                             .filter(entity -> entity instanceof ArmorStand)
                             .forEach(Entity::remove);
 
-                    for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                    for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                         try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                                Material material = Material.valueOf(instance.getConfig().getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                                byte data = (byte) instance.getConfig().getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
-                                    List<String> commands = Main.getInstance().getConfig().getStringList(path_);
+                                    List<String> commands = instance.getConfig().getStringList(path_);
                                     Actions.use(commands, player);
                                 }
                            // }
@@ -243,7 +227,7 @@ public class CaseAnimation implements Listener {
 
                 }
             }
-        }.runTaskTimer(Main.getInstance(), 0, 1);
+        }.runTaskTimer(instance, 0, 1);
     }
 
     private ItemStack getRandomItem() {

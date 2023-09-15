@@ -6,7 +6,6 @@ import net.framedev.api.Holograms;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-
 public class CaseAnimationEndListener implements Listener {
 
     @EventHandler
