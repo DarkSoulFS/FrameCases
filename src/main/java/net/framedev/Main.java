@@ -4,7 +4,6 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import net.framedev.animations.nmsanimation.listeners.CaseAnimationEndListener;
 import net.framedev.events.ClickBlock;
-import net.framedev.animations.CaseGUIAnimation;
 import net.framedev.choice.ChoiceClick;
 import net.framedev.events.EquItems;
 import net.framedev.guis.ClickGUI;
@@ -30,7 +29,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
     	PluginManager pm = getServer().getPluginManager();
         try {
-            if (getServer().getPluginManager().getPlugin("HolographicDisplays") == null || getServer().getPluginManager().getPlugin("ProtocolLib") == null) {
+            if (pm.getPlugin("HolographicDisplays") == null || pm.getPlugin("ProtocolLib") == null) {
                 getLogger().warning("No install HolographicDisplays and ProtocolLib plugins.");
                 pm.disablePlugin(this);
             }
@@ -46,7 +45,6 @@ public class Main extends JavaPlugin {
         pm.registerEvents(new ClickGUI(), this);
         pm.registerEvents(new SetCase(), this);
         pm.registerEvents(new ChoiceClick(), this);
-        pm.registerEvents(new CaseGUIAnimation(), this);
         pm.registerEvents(new EquItems(), this);
         pm.registerEvents(new CaseAnimationEndListener(), this);
         getCommand("framecases").setExecutor(new Commands());

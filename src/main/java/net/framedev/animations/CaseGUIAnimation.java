@@ -5,9 +5,9 @@ import net.framedev.others.Coloriser;
 import net.framedev.api.Actions;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CaseGUIAnimation implements Listener {
+public class CaseGUIAnimation {
 	
 	private final Main instance = Main.getInstance();
     public boolean animationRunning = false;
@@ -38,10 +38,11 @@ public class CaseGUIAnimation implements Listener {
         }
 
         player.openInventory(animationMenu);
-
-        for (String items : instance.getConfig().getConfigurationSection("animation-gui.items").getKeys(false)) {
+        
+        FileConfiguration config = instance.getConfig();
+        for (String items : config.getConfigurationSection("animation-gui.items").getKeys(false)) {
             try {
-            	ConfigurationSection item = instance.getConfig().getConfigurationSection("animation-gui.items." + items);
+            	ConfigurationSection item = config.getConfigurationSection("animation-gui.items." + items);
                 List<String> lores = item.getStringList(".lore");
                 String name = item.getString(".name");
                 String material = item.getString(".material");
@@ -70,15 +71,15 @@ public class CaseGUIAnimation implements Listener {
         for (int i = 0; i < 5; i++) {
             ItemStack item = getRandomItem();
             ItemMeta meta = item.getItemMeta();
-            for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+            for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                 try {
                     String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                    Material material = Material.valueOf(instance.getConfig().getString(path));
+                    Material material = Material.valueOf(config.getString(path));
                     String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                    byte data = (byte) instance.getConfig().getInt(pathData);
+                    byte data = (byte) config.getInt(pathData);
                     if (item.getType().equals(material) && item.getData().getData() == data) {
                         String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                        meta.setDisplayName(Coloriser.colorify(instance.getConfig().getString(path_)));
+                        meta.setDisplayName(Coloriser.colorify(config.getString(path_)));
                         item.setItemMeta(meta);
                     }
                 } catch (NullPointerException exception) {
@@ -90,7 +91,7 @@ public class CaseGUIAnimation implements Listener {
 
         new BukkitRunnable() {
             int ticks = 0;
-            int maxTicks = instance.getConfig().getInt("animation-gui-time") * 2; // 10 секунд (20 тиков = 1 секунда)
+            int maxTicks = config.getInt("animation-gui-time") * 2; // 10 секунд (20 тиков = 1 секунда)
 
             @Override
             public void run() {
@@ -99,15 +100,15 @@ public class CaseGUIAnimation implements Listener {
                     animationRunning = false;
                     ItemStack itemToGive = animationMenu.getItem(22); // Получаем предмет из 22 слота
 
-                    for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                    for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                         try {
                             String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                            Material material = Material.valueOf(instance.getConfig().getString(path));
+                            Material material = Material.valueOf(config.getString(path));
                             String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                            byte data = (byte) instance.getConfig().getInt(pathData);
+                            byte data = (byte) config.getInt(pathData);
                             if (itemToGive.getType().equals(material) && itemToGive.getData().getData() == data) {
                                 String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
-                                List<String> commands = instance.getConfig().getStringList(path_);
+                                List<String> commands = config.getStringList(path_);
                                 Actions.use(commands, player);
                             }
                         } catch (NullPointerException exception) {

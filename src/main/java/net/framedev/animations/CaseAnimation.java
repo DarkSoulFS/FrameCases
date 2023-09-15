@@ -8,6 +8,7 @@ import net.framedev.api.Holograms;
 import me.filoghost.holographicdisplays.api.HolographicDisplaysAPI;
 import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -65,7 +66,9 @@ public class CaseAnimation implements Listener {
                 particleLocation.getWorld().spawnParticle(Particle.HEART, particleLocation, 1, 0, 0, 0, 0);
 
                 angle += Math.PI / 16;
-
+                
+                FileConfiguration config = instance.getConfig();
+                
                 if (timer % 30 == 0) {
                     ItemStack randomItem = getRandomItem();
                     if (lastItem != null) {
@@ -76,7 +79,7 @@ public class CaseAnimation implements Listener {
                                 .filter(armorStand -> armorStand.getEquipment().getHelmet() != null && armorStand.getEquipment().getHelmet().getType() == lastItem.getType())
                                 .forEach(ArmorStand::remove);
                     }
-
+                    
                     // Добавление нового предмета к стойке для брони
                     if (block.getType().equals(Material.CHEST) || block.getType().equals(Material.ENDER_CHEST) || block.getType().equals(Material.TRAPPED_CHEST)) {
                         if (randomItem.getType().isBlock()) {
@@ -98,22 +101,22 @@ public class CaseAnimation implements Listener {
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         }
-                        for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                        for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                             try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(instance.getConfig().getString(path));
+                                Material material = Material.valueOf(config.getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) instance.getConfig().getInt(pathData);
+                                byte data = (byte) config.getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     hologram.getLines().remove(0);
                                     String path_name = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                                    hologram.getLines().appendText(Coloriser.colorify(instance.getConfig().getString(path_name)));
+                                    hologram.getLines().appendText(Coloriser.colorify(config.getString(path_name)));
                                 }
                             } catch (NullPointerException | IndexOutOfBoundsException exception) {
 
                             }
                         }
-                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(instance.getConfig().getString("settings.animation-sound")), 1f, 1f);
+                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(config.getString("settings.animation-sound")), 1f, 1f);
                     } else if (isShulkerBox(block.getType())) {
                         if (randomItem.getType().isBlock()) {
                             ArmorStand armorStand = location.getWorld().spawn(location.clone().add(0.5, -0.9, 0.5), ArmorStand.class);
@@ -134,23 +137,23 @@ public class CaseAnimation implements Listener {
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         }
-                        for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                        for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                             try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(instance.getConfig().getString(path));
+                                Material material = Material.valueOf(config.getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) instance.getConfig().getInt(pathData);
+                                byte data = (byte) config.getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     hologram.setPosition(Holograms.locationCase().add(1.6, 1, 0.5));
                                     hologram.getLines().remove(0);
                                     String path_name = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                                    hologram.getLines().appendText(Coloriser.colorify(instance.getConfig().getString(path_name)));
+                                    hologram.getLines().appendText(Coloriser.colorify(config.getString(path_name)));
                                 }
                             } catch (NullPointerException | IndexOutOfBoundsException exception) {
 
                             }
                         }
-                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(instance.getConfig().getString("settings.animation-sound")), 1f, 1f);
+                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(config.getString("settings.animation-sound")), 1f, 1f);
                     } else if (!(block.getType().equals(Material.CHEST)) && !(block.getType().equals(Material.ENDER_CHEST)) && !(isShulkerBox(block.getType())) &&
                             !(block.getType().equals(Material.TRAPPED_CHEST))) {
                         if (randomItem.getType().isBlock()) {
@@ -172,26 +175,25 @@ public class CaseAnimation implements Listener {
                             armorStand.setHeadPose(new EulerAngle(0, 0, 0));
                             lastItem = randomItem;
                         }
-                        for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                        for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                             try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(instance.getConfig().getString(path));
+                                Material material = Material.valueOf(config.getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) instance.getConfig().getInt(pathData);
+                                byte data = (byte) config.getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     hologram.setPosition(Holograms.locationCase().add(1.55, 1.8, 0.5));
                                     hologram.getLines().remove(0);
                                     String path_name = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                                    hologram.getLines().appendText(Coloriser.colorify(instance.getConfig().getString(path_name)));
+                                    hologram.getLines().appendText(Coloriser.colorify(config.getString(path_name)));
                                 }
                             } catch (NullPointerException | IndexOutOfBoundsException exception) {
 
                             }
                         }
-                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(instance.getConfig().getString("settings.animation-sound")), 1f, 1f);
+                        particleLocation.getWorld().playSound(particleLocation, Sound.valueOf(config.getString("settings.animation-sound")), 1f, 1f);
                     }
                 }
-
 
                 if (timer >= 200) {
                     location.getWorld().getNearbyEntities(location, 0.5, 0.5, 0.5)
@@ -199,15 +201,15 @@ public class CaseAnimation implements Listener {
                             .filter(entity -> entity instanceof ArmorStand)
                             .forEach(Entity::remove);
 
-                    for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                    for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                         try {
                                 String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                                Material material = Material.valueOf(instance.getConfig().getString(path));
+                                Material material = Material.valueOf(config.getString(path));
                                 String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                                byte data = (byte) instance.getConfig().getInt(pathData);
+                                byte data = (byte) config.getInt(pathData);
                                 if (lastItem.getType().equals(material) && lastItem.getData().getData() == data) {
                                     String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
-                                    List<String> commands = instance.getConfig().getStringList(path_);
+                                    List<String> commands = config.getStringList(path_);
                                     Actions.use(commands, player);
                                 }
                            // }

@@ -10,6 +10,8 @@ import java.util.Objects;
 public class CasesContainer {
 
 	private static final Main instance = Main.getInstance();
+	
+	// В пизду
 
 	public static void giveKey(String name, String case_, int amount) {
 		try {

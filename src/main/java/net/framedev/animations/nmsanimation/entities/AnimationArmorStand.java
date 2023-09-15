@@ -10,7 +10,9 @@ import net.framedev.Main;
 import net.framedev.animations.nmsanimation.events.CaseAnimationEndEvent;
 import net.framedev.api.Actions;
 import net.framedev.api.Holograms;
+
 import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -47,7 +49,8 @@ public class AnimationArmorStand {
         double arrowBottomX = blockCenter.getX();
         double arrowBottomY = blockCenter.getY() + distance + 0.5;
         double arrowBottomZ = blockCenter.getZ();
-
+        
+        FileConfiguration config = instance.getConfig();
         if (instance.getServer().getVersion().contains("1.16")) {
             DustOptions dustOptions = new Particle.DustOptions(Color.fromBGR(0, 0, 255), 1);
             BukkitTask timer = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
@@ -66,13 +69,13 @@ public class AnimationArmorStand {
 
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 Material material = getHighestArmorStand().getArmorStand().getEquipment().getHelmet().getType();
-                for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                     try {
                         String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                        Material check = Material.valueOf(instance.getConfig().getString(path));
+                        Material check = Material.valueOf(config.getString(path));
                         if (material.equals(check)) {
                             String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
-                            List<String> commands = instance.getConfig().getStringList(path_);
+                            List<String> commands = config.getStringList(path_);
                             Actions.use(commands, player);
                         }
                         // }
@@ -112,15 +115,15 @@ public class AnimationArmorStand {
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 Material material = getHighestArmorStand().getArmorStand().getEquipment().getHelmet().getType();
                 byte data = Objects.requireNonNull(getHighestArmorStand().getArmorStand().getEquipment().getHelmet().getData()).getData();
-                for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+                for (String st : config.getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                     try {
                         String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                        Material check = Material.valueOf(instance.getConfig().getString(path));
+                        Material check = Material.valueOf(config.getString(path));
                         String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
-                        byte checkData = (byte) instance.getConfig().getInt(pathData);
+                        byte checkData = (byte) config.getInt(pathData);
                         if (material.equals(check) && data == checkData) {
                             String path_ = String.join(".", "cases." + Main.openCaseName + "." + st + ".commands");
-                            List<String> commands = instance.getConfig().getStringList(path_);
+                            List<String> commands = config.getStringList(path_);
                             Actions.use(commands, player);
                         }
                         // }
