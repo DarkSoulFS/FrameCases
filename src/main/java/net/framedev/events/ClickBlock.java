@@ -7,11 +7,12 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import net.framedev.guis.GUI;
 import net.framedev.Main;
-import net.framedev.others.S;
+import net.framedev.others.Coloriser;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,26 +22,29 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.Objects;
 
 public class ClickBlock implements Listener {
+	
+	private final Main instance = Main.getInstance();
 
     @EventHandler
     public void click(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
         try {
-            String w = Main.getInstance().getConfig().getString("location.world");
+        	ConfigurationSection location = instance.getConfig().getConfigurationSection("location");
+            String w = location.getString("world");
             World world = Bukkit.getWorld(w);
-            double x = Main.getInstance().getConfig().getDouble("location.x");
-            double y = Main.getInstance().getConfig().getDouble("location.y");
-            double z = Main.getInstance().getConfig().getDouble("location.z");
-            float pitch = (float) Main.getInstance().getConfig().getDouble("location.pitch");
-            float yaw = (float) Main.getInstance().getConfig().getDouble("location.yaw");
+            double x = location.getDouble("x");
+            double y = location.getDouble("y");
+            double z = location.getDouble("z");
+            float pitch = (float) location.getDouble("pitch");
+            float yaw = (float) location.getDouble("yaw");
 
             Location locationCase = new Location(world, x, y, z, pitch, yaw);
 
             if (Objects.requireNonNull(event.getClickedBlock()).getLocation().equals(locationCase)) {
                 if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                     if (Main.isOpen) {
-                        player.sendMessage(S.s(Main.getInstance().getConfig().getString("messages.case-is-opened")));
+                        player.sendMessage(Coloriser.colorify(instance.getConfig().getString("messages.case-is-opened")));
                         event.setCancelled(true);
                         return;
                     }

@@ -1,3 +1,4 @@
+
 block-particles:
   power: true
   particle: END_ROD
@@ -25,7 +26,6 @@ messages:
 animation-gui-time: 10
 gui:
   items:
-    ;
     DONATE:
       name: "&6&lКейс с донатом"
       material: TRIPWIRE_HOOK
@@ -400,6 +400,24 @@ choice:
       data: 0
       amount: 1
       slot: 15
+    ANIMATION_6: # <----
+      perms: "framecases.animation6"
+      no-perms:
+        - ""
+        - " &7Ошибка, перед тем как использовать эту анимацию"
+        - " &7надо где-то ее получить, либо купить"
+        - " &7на сайте &6framedev.ru"
+        - ""
+      name: "&a&lАнимация #6 (Платная)"
+      lore:
+        - ""
+        - " &7Покупка анимации в группе &6@Frame_Dev"
+        - " &7Стоимость: &e200 рублей"
+        - ""
+      material: LIME_DYE
+      data: 0
+      amount: 1
+      slot: 22
     BACK: # <----
       name: "&4&lНазад"
       material: BARRIER

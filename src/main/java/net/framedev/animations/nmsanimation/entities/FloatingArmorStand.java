@@ -1,26 +1,18 @@
 package net.framedev.animations.nmsanimation.entities;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketContainer;
 import net.framedev.Main;
-import net.framedev.others.S;
-import org.bukkit.Bukkit;
+import net.framedev.others.Coloriser;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class FloatingArmorStand {
-
+	
+	private final Main instance = Main.getInstance();
     AnimationArmorStand anim;
     ArmorStand ast;
     double angleRads;
@@ -43,14 +35,14 @@ public class FloatingArmorStand {
             ast.setGravity(false);
             ast.setVisible(false);
             ast.getEquipment().setHelmet(new ItemStack(getRandomItem()));
-            for (String st : Main.getInstance().getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
+            for (String st : instance.getConfig().getConfigurationSection("cases." + Main.openCaseName).getKeys(false)) {
                 try {
                     String path = String.join(".", "cases." + Main.openCaseName + "." + st + ".material");
-                    Material material = Material.valueOf(Main.getInstance().getConfig().getString(path));
+                    Material material = Material.valueOf(instance.getConfig().getString(path));
                     String pathData = String.join(".", "cases." + Main.openCaseName + "." + st + ".data");
                     String hdPath = String.join(".", "cases." + Main.openCaseName + "." + st + ".name");
-                    String hd = S.s(Main.getInstance().getConfig().getString(hdPath));
-                    byte data = (byte) Main.getInstance().getConfig().getInt(pathData);
+                    String hd = Coloriser.colorify(instance.getConfig().getString(hdPath));
+                    byte data = (byte) instance.getConfig().getInt(pathData);
                     if (ast.getEquipment().getHelmet().getType().equals(material) && ast.getEquipment().getHelmet().getData().getData() == data) {
                         ast.setCustomName(hd);
                         ast.setCustomNameVisible(true);
@@ -63,12 +55,11 @@ public class FloatingArmorStand {
         } else {
             if (ast.getEquipment().getHelmet().getType().isBlock()) {
                 ast.teleport(astLoc);
-            } else {
-                ast.teleport(astLoc.add(0, -0.5, 0));
+                return;
             }
+            ast.teleport(astLoc.add(0, -0.5, 0));
         }
     }
-
 
     public ArmorStand getArmorStand() {
         return ast;
@@ -81,7 +72,6 @@ public class FloatingArmorStand {
     public void removeArmorStand() {
         ast.remove();
     }
-
 
     private ItemStack getRandomItem() {
         Random random = new Random();

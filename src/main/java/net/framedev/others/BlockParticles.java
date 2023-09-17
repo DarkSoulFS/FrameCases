@@ -1,13 +1,10 @@
 package net.framedev.others;
 
-import me.filoghost.holographicdisplays.api.hologram.Hologram;
 import net.framedev.Main;
 import net.framedev.api.Holograms;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Objects;
 
 public class BlockParticles {
 

@@ -1,5 +1,5 @@
 name: FrameCases
-version: 0.7.4
+version: 0.7.5
 main: net.framedev.Main
 api-version: 1.16
 authors:

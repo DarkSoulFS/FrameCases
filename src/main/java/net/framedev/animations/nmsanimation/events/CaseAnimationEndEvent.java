@@ -4,7 +4,6 @@ import net.framedev.animations.nmsanimation.entities.AnimationArmorStand;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-
 public class CaseAnimationEndEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
@@ -24,8 +23,6 @@ public class CaseAnimationEndEvent extends Event {
     public AnimationArmorStand getAnimation() {
         return anim;
     }
-
-
 
     public boolean isRemovingArmorStands() {
         return removeArmorStands;
